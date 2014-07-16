@@ -15,6 +15,7 @@ function DMXHandler(){
 module.exports = DMXHandler;
 
 DMXHandler.prototype.sendValue = function(channel,value){
+    console.log('called to write to serialport serialport isopen: ' + this.isOpen);
     if(this.isOpen) {
         console.log('writing to serial port');
         serialPort.write(channel + 'c' + value + 'w');

@@ -26,7 +26,7 @@ server.post('/console/cmd',function(req,res){
     var ctx = new Context(req);
     //channel, value
     console.log(ctx);
-    handler.sendValue(ctx.getParam('channel'),ctx.getParam('value'));
+    new DMXHandler().sendValue(ctx.getParam('channel'),ctx.getParam('value'));
     res.end();
 });
 
