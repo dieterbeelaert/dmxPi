@@ -30,9 +30,11 @@ serialPort.on("open", function () {
 
     server.post('/console/cmd',function(req,res){
         var ctx = new Context(req);
+	var channel = ctx.getParam('channel');
+	var value = ctx.getParam('value');
         //channel, value
         console.log(ctx);
-        new DMXHandler().sendValue(ctx.getParam('channel'),ctx.getParam('value'));
+        serialPort.write(channel +'c'+value+'w');
         res.end();
     });
 
