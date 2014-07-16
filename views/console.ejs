@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+
+    <title>DMX console</title>
+    <link href="/public/CSS/console.css" rel="stylesheet"/>
+</head>
+<body ng-app>
+
+<div ng-controller="dmxConsoleCtrl">
+    <h2 id="heading">Type in channel@value</h2>
+    <input type="text" ng-model="command" ng-keyup="submit()" id="txtInput"/>
+    <br/>
+    <div id="keyPad">
+        <% var i = 1;%>
+        <%for(var r = 0; r < 3; r++){%>
+        <div>
+            <% for(var c = 0; c < 3; c++){%>
+               <button class="keybutton" ng-click="addVal(<%=i%>)"><%=i%></button>
+                <%i++%>
+            <%}%>
+        </div>
+        <% }%>
+        <div>
+          <button class="keybutton" ng-click="addVal('@')">@</button>
+          <button class="keybutton" ng-click="addVal(0)">0</button>
+          <button class="keybutton" ng-click="doBackspace()">&lt;--</button>
+        </div>
+    </div>
+    <button ng-click="sendCommand()" id="btnGo">GO</button>
+</div>
+
+    <% include includes.ejs %>
+    <script src="/public/JS/console.js"></script>
+</body>
+</html>

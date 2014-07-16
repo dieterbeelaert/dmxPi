@@ -1,0 +1,25 @@
+.keybutton,
+#btnGo{
+    background-color:black;
+    color:white;
+    font-weight:bold;
+    height:4em;
+}
+.keybutton{
+    width:32%;
+
+}
+#btnGo{
+    width:98%;
+}
+#txtInput{
+    width:98%;
+}
+
+#heading{
+    text-align:center;
+}
+
+body{
+    background-color:#880000;
+}
