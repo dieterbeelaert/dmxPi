@@ -4,16 +4,23 @@
     color:white;
     font-weight:bold;
     height:4em;
+    vertical-align: middle;
+    line-height: 4em;
+    text-align:center;
+    border: 2px solid white;
 }
 .keybutton{
-    width:32%;
+    width:30%;
+    float:left;
+    margin:2px;
 
 }
 #btnGo{
-    width:98%;
+    clear:both;
+    width:92%;
 }
 #txtInput{
-    width:98%;
+    width:92%;
 }
 
 #heading{

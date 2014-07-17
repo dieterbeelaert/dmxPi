@@ -18,18 +18,18 @@
         <%for(var r = 0; r < 3; r++){%>
         <div>
             <% for(var c = 0; c < 3; c++){%>
-               <button class="keybutton" ng-click="addVal(<%=i%>)"><%=i%></button>
+               <div class="keybutton" ng-click="addVal(<%=i%>)"><%=i%></div>
                 <%i++%>
             <%}%>
         </div>
         <% }%>
         <div>
-          <button class="keybutton" ng-click="addVal('@')">@</button>
-          <button class="keybutton" ng-click="addVal(0)">0</button>
-          <button class="keybutton" ng-click="doBackspace()">&lt;--</button>
+          <div class="keybutton" ng-click="addVal('@')">@</div>
+          <div class="keybutton" ng-click="addVal(0)">0</div>
+          <div class="keybutton" ng-click="doBackspace()">&lt;--</div>
         </div>
     </div>
-    <button ng-click="sendCommand()" id="btnGo">GO</button>
+    <div ng-click="sendCommand()" id="btnGo">GO</div>
 </div>
 
     <% include includes.ejs %>
