@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>DMX console</title>
+    <!--use this https://github.com/furf/jquery-ui-touch-punch#readme-->
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+    <link href="/public/CSS/raw_desk.css" rel="stylesheet"/>
+</head>
+<body ng-app ng-controller="raw_deskCtrl">
+
+    <input type="text" ng-model="command" ng-keyUp="sendCommand()"/>
+    <button ng-click="recordCue()">Record</button>
+    <div class="spacer"></div>
+
+   <div class="fader" id="masterFader" number="-1">M</div>
+
+    <% for(var i = 0; i < 10; i++){%>
+      <div class="fader" number="<%=i%>"><%=i+1%></div>
+    <%}%>
+
+<% include includes.ejs %>
+<script src="/public/JS/raw_desk.js"></script>
+</body>
+</html>

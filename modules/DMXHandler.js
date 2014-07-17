@@ -5,16 +5,22 @@
 
 
 
-function DMXHandler(serialport){
-    this.serialPort = serialport;
+function DMXHandler(){
 }
 
 module.exports = DMXHandler;
 
-DMXHandler.prototype.sendValue = function(channel,value){
-    console.log('called to write to serialport serialport isopen: ' + this.isOpen);
-    if(this.isOpen) {
-     this.serialPort.write(channel + 'c' + value + 'w');
+DMXHandler.prototype.sendValue = function(valueString,serialPort){
+    var values = valueString.split(',');
+    var toSend = '';
+    for(var i = 0; i < values.length; i++){
+        if(values[i] !== '' || values[i].indexOf('@') !== -1){
+            var splitted = values[i].split('@');
+            var toAppend = splitted[0] + 'c' + splitted[1] + 'w';
+            toSend += toAppend;
+        }
     }
+    console.log('to Send ...' + toSend);
+    serialPort.write(toSend);
 }
 

@@ -1,0 +1,9 @@
+.fader{
+    float:left;
+    margin-left: 15px;
+}
+
+.spacer{
+    clear:both;
+    height:5em;
+}

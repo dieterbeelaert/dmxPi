@@ -6,6 +6,9 @@ var server = new express();
 var SerialPort = require('serialport').SerialPort;
 var Context = require('./models/Context.js');
 var bodyParser = require('body-parser');
+var io = require('socket.io');
+var http = require('http');
+var DMXHandler = require('./modules/DMXHandler.js');
 server.use(bodyParser.urlencoded());
 server.use(bodyParser.json())
 //serve static files
@@ -19,13 +22,15 @@ serialPort.on("open", function () {
 });
 
 
-
 function initServer(){
-    server.listen(8080);
+    var httpServer = http.createServer(server);
+    var socket = io.listen(httpServer);
+    httpServer.listen(8080);
     server.get("/",function(req,res){
         res.render('../views/index.ejs');
     });
 
+    /*DMX keypad*/
     server.get("/console",function(req,res){
         res.render('../views/console.ejs');
     });
@@ -38,6 +43,29 @@ function initServer(){
         console.log(ctx);
         serialPort.write(channel +'c'+value+'w');
         res.end();
+    });
+
+    /*DMX Raw desk*/
+    server.get("/raw",function(req,res){
+       res.render('../views/raw_desk.ejs');
+    });
+
+    /*Socket listeners*/
+    socket.on('connection',function(socket){
+       console.log('socket connection');
+
+        socket.on('record',function(data){
+           //data.cue, data.data
+        });
+
+        socket.on('fade',function(data){
+
+        });
+
+        socket.on('set',function(data){
+            console.log('set received ...');
+            new DMXHandler().sendValue(data.data,serialPort);
+        });
     });
 }
 
