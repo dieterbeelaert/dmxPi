@@ -14,6 +14,10 @@ server.use(bodyParser.json())
 //serve static files
 server.use("/public", express.static(__dirname + '/public'));
 
+//DMX variables
+var master = 255;
+var cues = ['1@255','2@255','3@255']; //cues is a list of values strings
+
 var serialPort = new SerialPort('/dev/ttyACM0',{ baudrate: 9600,dataBits: 8,parity: 'none',stopBits: 1,flowControl: false});
 serialPort.on("open", function () {
     console.log('serial port is open');
@@ -59,14 +63,40 @@ function initServer(){
         });
 
         socket.on('fade',function(data){
-
+          if(parseInt(data.cue) === -1){
+              master = parseInt(data.value);
+              updateValues(serialPort);
+          }else{
+             updateCue(data.cue,data.value,function(){
+                new DMXHandler().sendValue(cues[data.cue],master,serialPort);
+             });
+          }
         });
 
         socket.on('set',function(data){
             console.log('set received ...');
-            new DMXHandler().sendValue(data.data,serialPort);
+            new DMXHandler().sendValue(data.data,master,serialPort);
         });
     });
+}
+
+function updateValues(serialPort){
+    var handler = new DMXHandler();
+    for(var i = 0; i < cues.length; i++){
+       handler.sendValue(cues[i],master,serialPort);
+    }
+}
+
+function updateCue(index,value,callback){
+    var cue = cues[i];
+    var splitted = cue.split(',');
+    var toUpdate = '';
+    for(var i = 0; i< splitted.length; i++){
+        var curCue = splitted[i].split('@');
+        toUpdate = curCue[0] + '@' +(parseInt(curCue[1]) * (value / 255));
+    }
+    cues[i] = toUpdate;
+    callback();
 }
 
 
