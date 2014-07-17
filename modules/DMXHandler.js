@@ -12,18 +12,20 @@ module.exports = DMXHandler;
 
 
 DMXHandler.prototype.sendValue = function(valueString,master,serialPort){
-    var values = valueString.split(',');
+if(valueString !== undefined){  
+  var values = valueString.split(',');
     var toSend = '';
     for(var i = 0; i < values.length; i++){
         if(values[i] !== '' || values[i].indexOf('@') !== -1){
             var splitted = values[i].split('@');
             var val = parseInt(splitted[1]) * (master/255);
-            var toAppend = splitted[0] + 'c' + splitted[1] + 'w';
+            var toAppend = splitted[0] + 'c' + val + 'w';
             toSend += toAppend;
         }
     }
     console.log('to Send ...' + toSend);
     serialPort.write(toSend);
+}
 }
 
 

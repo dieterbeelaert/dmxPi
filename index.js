@@ -63,14 +63,16 @@ function initServer(){
         });
 
         socket.on('fade',function(data){
-            System.out.println(data);
+            console.log(data);
           if(parseInt(data.cue) === -1){
               master = parseInt(data.value);
               updateValues(serialPort);
           }else{
-             updateCue(data.cue,data.value,function(){
-                new DMXHandler().sendValue(cues[data.cue],master,serialPort);
-             });
+           //  updateCue(data.cue,data.value,function(){
+             //   new DMXHandler().sendValue(cues[data.cue],master,serialPort);
+            // });
+
+	    new DMXHandler().sendValue(cues[data.cue],data.value,serialPort);
           }
         });
 
