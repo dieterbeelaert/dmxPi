@@ -33,6 +33,7 @@ $(document).ready(function(){
         slide: function( event, ui ) {
             var cue = $(this).attr('number');
             //get value by ui.value
+            socket.emit('fade',{cue:cue,value:ui.value});
         }
     });
 });
