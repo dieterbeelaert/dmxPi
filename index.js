@@ -88,15 +88,17 @@ function updateValues(serialPort){
 }
 
 function updateCue(index,value,callback){
-    var cue = cues[i];
-    var splitted = cue.split(',');
-    var toUpdate = '';
-    for(var i = 0; i< splitted.length; i++){
-        var curCue = splitted[i].split('@');
-        toUpdate = curCue[0] + '@' +(parseInt(curCue[1]) * (value / 255));
+    var cue = cues[index];
+    if(typeof cue !== undefined) {
+        var splitted = cue.split(',');
+        var toUpdate = '';
+        for (var i = 0; i < splitted.length; i++) {
+            var curCue = splitted[i].split('@');
+            toUpdate = curCue[0] + '@' + (parseInt(curCue[1]) * (value / 255));
+        }
+        cues[i] = toUpdate;
+        callback();
     }
-    cues[i] = toUpdate;
-    callback();
 }
 
 
