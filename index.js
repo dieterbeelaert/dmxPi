@@ -63,6 +63,7 @@ function initServer(){
         });
 
         socket.on('fade',function(data){
+            System.out.println(data);
           if(parseInt(data.cue) === -1){
               master = parseInt(data.value);
               updateValues(serialPort);
