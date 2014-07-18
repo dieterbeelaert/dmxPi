@@ -22,9 +22,9 @@ $(document).ready(function(){
                 }else{
                     console.log('recording: ' );
                     console.log("at cue: " + cue);
-                    socket.emit('record',{cue:cue,data:$('#txtCommand').val()});
+                    socket.emit('record',{cue:cue,data:$('#txtCmd').val()});
                     recordMode = false;
-                    $('#txtCommand').val('');
+                    $('#txtCmd').val('');
                     $('#msgRecordMode').hide();
                 }
             }
@@ -36,8 +36,8 @@ $(document).ready(function(){
 
         });
 
-        $('#txtCommand').keyup(function(){
-            socket.emit('set',{data: $(this).val()});
+        $('#txtCmd').keyup(function(){
+            socket.emit('set',{data: $('#txtCmd').val()});
         });
 
         $('#btnRecordStep').click(function(){
