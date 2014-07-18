@@ -9,8 +9,10 @@
 </head>
 <body ng-app ng-controller="raw_deskCtrl">
 
-    <input type="text" ng-model="command" ng-keyUp="sendCommand()"/>
+    <input type="text" id="txtCmd"  ng-model="command" ng-keyUp="sendCommand()"/>
     <button ng-click="recordCue()">Record</button>
+    <button ng-click="recordStep()">Record step</button>
+    <h2 ng-show="recordMode">Please select the fader where you want to record this cue</h2>
     <div class="spacer"></div>
 
    <div class="fader" id="masterFader" number="-1">M</div>
