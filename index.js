@@ -68,11 +68,11 @@ function initServer(){
               master = parseInt(data.value);
               updateValues(serialPort);
           }else{
-           //  updateCue(data.cue,data.value,function(){
-             //   new DMXHandler().sendValue(cues[data.cue],master,serialPort);
-            // });
-
-	    new DMXHandler().sendValue(cues[data.cue],data.value,serialPort);
+              //todo: use updateCue so that the master fader has an effect ...
+	        //new DMXHandler().sendValue(cues[data.cue],data.value,serialPort);
+              updateCue(data.cue,data.value,function(){
+                 new DMXHandler().sendvalue(cues[data.cue],master,serialPort);
+              });
           }
         });
 
@@ -97,7 +97,7 @@ function updateCue(index,value,callback){
         var toUpdate = '';
         for (var i = 0; i < splitted.length; i++) {
             var curCue = splitted[i].split('@');
-            toUpdate = curCue[0] + '@' + (parseInt(curCue[1]) * (value / 255));
+            toUpdate = curCue[0] + '@' + Math.round((parseInt(curCue[1]) * (value / 255)));
         }
         cues[i] = toUpdate;
         callback();
