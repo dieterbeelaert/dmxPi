@@ -7,12 +7,12 @@
     <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
     <link href="/public/CSS/raw_desk.css" rel="stylesheet"/>
 </head>
-<body ng-app ng-controller="raw_deskCtrl">
+<body>
 
     <input type="text" id="txtCmd"  ng-model="command" ng-keyUp="sendCommand()"/>
-    <button ng-click="recordCue()">Record</button>
-    <button ng-click="recordStep()">Record step</button>
-    <h2 ng-show="recordMode">Please select the fader where you want to record this cue</h2>
+    <button id="btnRecordCue">Record</button>
+    <button id="btnRecordStep">Record step</button>
+    <h2 id="msgRecordMode">Please select the fader where you want to record this cue</h2>
     <div class="spacer"></div>
 
    <div class="fader" id="masterFader" number="-1">M</div>

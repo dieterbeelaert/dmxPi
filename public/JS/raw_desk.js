@@ -3,27 +3,10 @@
  */
 
 var socket = io();
+var recordMode = false;
 
-function raw_deskCtrl($scope,$http){
-    $scope.command = ''; 
-    $scope.recordMode = false;
-
-    $scope.sendCommand = function(){
-        console.log("keyup");
-        //check if the values in the field are valid and send them to the server
-         socket.emit('set',{data: $scope.command});
-    }
-
-    $scope.recordCue = function(){
-        //ask user which cue ...
-        //send to server over sockets what needs to be recored in what cue
-	$scope.recordMode = true;
-    }
-
-
-    //faders are jquery ...
-    $(document).ready(function(){
-
+$(document).ready(function(){
+         $('#msgRecordMode').hide();
         socket.emit('set',{data:'test'});
         $('.fader').slider({
             orientation: "vertical",
@@ -33,19 +16,33 @@ function raw_deskCtrl($scope,$http){
             value: 0,
             slide: function( event, ui ) {
                 var cue = $(this).attr('number');
-                if($scope.recordMode){
+                if(!recordMode){
                     //get value by ui.value
                     socket.emit('fade',{cue:cue,value:ui.value});
                 }else{
-                    console.log('recording: ' + $scope.command);
+                    console.log('recording: ' );
                     console.log("at cue: " + cue);
-                    socket.emit('record',{cue:cue,data:$scope.command});
-                    $scope.recordMode = false;
-                    $scope.command = '';
+                    socket.emit('record',{cue:cue,data:$('#txtCommand').val()});
+                    recordMode = false;
+                    $('#txtCommand').val('');
+                    $('#msgRecordMode').hide();
                 }
             }
         });
+
+        $('#btnRecordCue').click(function(){
+           recordMode = true;
+            $('#msgRecordMode').show();
+
+        });
+
+        $('#txtCommand').keyup(function(){
+            socket.emit('set',{data: $(this).val()});
+        });
+
+        $('#btnRecordStep').click(function(){
+
+        });
     });
-}
 
 

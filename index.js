@@ -16,7 +16,7 @@ server.use("/public", express.static(__dirname + '/public'));
 
 //DMX variables
 var master = 255;
-var cues = ['1@255','2@255','3@255']; //cues is a list of values strings
+var cues = ['1@255','2@255','3@255','','','','','','','']; //cues is a list of values strings
 
 var serialPort = new SerialPort('/dev/ttyACM0',{ baudrate: 9600,dataBits: 8,parity: 'none',stopBits: 1,flowControl: false});
 serialPort.on("open", function () {
@@ -60,6 +60,9 @@ function initServer(){
 
         socket.on('record',function(data){
            //data.cue, data.data
+           if(data.cue != -1){
+               cues[data.cue] = data.data;
+           }
         });
 
         socket.on('fade',function(data){
