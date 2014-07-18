@@ -37,7 +37,7 @@ $(document).ready(function(){
         });
 
         $('#txtCommand').keyup(function(){
-            socket.emit('set',{data: $(this).val()});
+            socket.emit('set',{data: $('#txtCommand').val()});
         });
 
         $('#btnRecordStep').click(function(){

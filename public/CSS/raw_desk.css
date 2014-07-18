@@ -7,3 +7,27 @@
     clear:both;
     height:5em;
 }
+
+
+.fader,
+.ui-slider,
+.ui-slider-vertical,
+.ui-widget,
+.ui-widget-content,
+.ui-corner-all{
+    width:60px !important;
+}
+
+.ui-slider-handle,
+.ui-state-default,
+.ui-corner-all{
+    margin-left:3px !important;
+}
+
+.ui-slider-handle{
+    height:60px !important;
+}
+
+.ui-slider{
+    height:300px !important;
+}
