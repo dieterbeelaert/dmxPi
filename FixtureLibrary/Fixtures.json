@@ -1,0 +1,7 @@
+{
+    "fixtures":
+        [
+            {"name":"mac250","isMovingHead":true,"values":{"pan":0,"tilt":0,"dimmer":0,"shutter":0}},
+            {"name":"genericLed","isMovingHead":false,"values":{"red":0,"green":0,"blue":0}}
+        ]
+}

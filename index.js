@@ -9,6 +9,7 @@ var bodyParser = require('body-parser');
 var io = require('socket.io');
 var http = require('http');
 var DMXHandler = require('./modules/DMXHandler.js');
+var FixtureFactory = require('./models/FixtureFactory');
 server.use(bodyParser.urlencoded());
 server.use(bodyParser.json())
 //serve static files
@@ -16,14 +17,16 @@ server.use("/public", express.static(__dirname + '/public'));
 
 //DMX variables
 var master = 255;
-var cues = ['','','','','','','','','','']; //cues is a list of values strings
-
+var cues = ['','','','','','','','','','']; //cues is a list of values strings (for now)
+var fixtures = [];
+/*
 var serialPort = new SerialPort('/dev/ttyACM0',{ baudrate: 9600,dataBits: 8,parity: 'none',stopBits: 1,flowControl: false});
 serialPort.on("open", function () {
     console.log('serial port is open');
     //only startup the node server when the serialport is opened ...
     initServer();
-});
+});*/
+
 
 
 function initServer(){
