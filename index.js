@@ -39,6 +39,7 @@ function initServer(){
         res.render('../views/console.ejs');
     });
 
+    /*support for old webclient*/
     server.post('/console/cmd',function(req,res){
         var ctx = new Context(req);
         var channel = ctx.getParam('channel');
@@ -48,6 +49,16 @@ function initServer(){
         serialPort.write(channel +'c'+value+'w');
         res.end();
     });
+
+    /*better way*/
+    server.post('/cmd',function(req,res){
+       var ctx = new Context(req);
+       var command = ctx.getParam('cmd');
+       var handler = new DMXHandler();
+       handler.sendValue(command,master,serialPort);
+       res.end();
+    });
+
 
     /*DMX Raw desk*/
     server.get("/raw",function(req,res){
