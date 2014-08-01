@@ -64,7 +64,7 @@ function initServer(){
     /*DMX Raw desk*/
     server.get("/raw",function(req,res){
         console.log('request for raw');
-        var ctrl = new Controllers.RawDeskController(new Context(req,res),socket,null/*serialPort*/);
+        var ctrl = new Controllers.RawDeskController(new Context(req,res),socket,serialPort);
         ctrl.doRequest();
     });
 }
