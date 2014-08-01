@@ -34,12 +34,13 @@ RawDeskController.prototype.doRequest = function(){
         });
 
         socket.on('fade',function(data){
-            new DMXHandler().sendValue(cues[data.cue],data.value,self.serialPort);
+            console.log(data);
+            //new DMXHandler().sendValue(cues[data.cue],data.value,self.serialPort);
         });
 
         socket.on('set',function(data){
             console.log('set received ...');
-            new DMXHandler().sendValue(data.data,master,self.serialPort);
+            //new DMXHandler().sendValue(data.data,master,self.serialPort);
         });
     });
     self.ctx.res.render(faderView,this.ctx);

@@ -17,13 +17,13 @@ server.use(bodyParser.json())
 server.use("/public", express.static(__dirname + '/public'));
 
 var fixtures = [];
-
+/*
 var serialPort = new SerialPort('/dev/ttyACM0',{ baudrate: 9600,dataBits: 8,parity: 'none',stopBits: 1,flowControl: false});
 serialPort.on("open", function () {
     console.log('serial port is open');
     //only startup the node server when the serialport is opened ...
     initServer();
-});
+});*/initServer();
 
 
 
@@ -64,7 +64,7 @@ function initServer(){
     /*DMX Raw desk*/
     server.get("/raw",function(req,res){
         console.log('request for raw');
-        var ctrl = new Controllers.RawDeskController(new Context(req,res),socket,serialPort);
+        var ctrl = new Controllers.RawDeskController(new Context(req,res),socket,null/*serialPort*/);
         ctrl.doRequest();
     });
 }

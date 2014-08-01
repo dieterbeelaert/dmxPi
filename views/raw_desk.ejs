@@ -16,7 +16,10 @@
     <div class="spacer"></div>
 
     <% for(var i = 0; i < 10; i++){%>
-      <div class="fader" number="<%=i%>"><%=i+1%></div>
+    <div class="faderHolder">
+            <div class="fader" number="<%=i%>"><%=i+1%></div>
+            <div class="flashButton" number="<%=i%>">Flash</div>
+    </div>
     <%}%>
 
 <% include includes.ejs %>

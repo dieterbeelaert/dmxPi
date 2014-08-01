@@ -16,19 +16,11 @@ $(document).ready(function(){
             value: 0,
             slide: function( event, ui ) {
                 var cue = $(this).attr('number');
-                if(!recordMode){
-                    //get value by ui.value
-                    socket.emit('fade',{cue:cue,value:ui.value});
-                }else{
-                    console.log('recording: ' );
-                    console.log("at cue: " + cue);
-                    socket.emit('record',{cue:cue,data:$('#txtCmd').val()});
-                    recordMode = false;
-                    $('#txtCmd').val('');
-                    $('#msgRecordMode').hide();
-                }
+                var value = ui.value;
+                sendFadeValue(cue,value);
             }
         });
+
 
         $('#btnRecordCue').click(function(){
            recordMode = true;
@@ -48,6 +40,32 @@ $(document).ready(function(){
         $('#btnRecordStep').click(function(){
 
         });
+
+        $('.flashButton').mousedown(function(){
+            var cue = $(this).attr('number');
+            sendFadeValue(cue,255)
+        });
+
+        $('.flashButton').button();
+        $('.flashButton').mouseup(function(){
+           var cue = $(this).attr('number');
+            sendFadeValue(cue,0);
+        });
+
+
+    function sendFadeValue(cue, value){
+        if(!recordMode){
+            //get value by ui.value
+            socket.emit('fade',{cue:cue,value:value});
+        }else{
+            console.log('recording: ' );
+            console.log("at cue: " + cue);
+            socket.emit('record',{cue:cue,data:$('#txtCmd').val()});
+            recordMode = false;
+            $('#txtCmd').val('');
+            $('#msgRecordMode').hide();
+        }
+    }
 });
 
 
