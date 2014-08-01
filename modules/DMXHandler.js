@@ -18,7 +18,7 @@ if(valueString !== undefined){
     for(var i = 0; i < values.length; i++){
         if(values[i] !== '' || values[i].indexOf('@') !== -1){
             var splitted = values[i].split('@');
-            var val = parseInt(splitted[1]) * (master/255);
+            var val = Math.round(parseInt(splitted[1]) * (master/255));
             var toAppend = splitted[0] + 'c' + val + 'w';
             toSend += toAppend;
         }

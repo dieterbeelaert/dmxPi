@@ -37,19 +37,19 @@ RawDeskController.prototype.doRequest = function(){
             console.log(data);
             if(parseInt(data.cue) === -1){
                 master = parseInt(data.value);
-                updateValues(this.serialPort);
+                updateValues(self.serialPort);
             }else{
                 //todo: use updateCue so that the master fader has an effect ...
-                //new DMXHandler().sendValue(cues[data.cue],data.value,serialPort);
+                new DMXHandler().sendValue(cues[data.cue],data.value,self.serialPort);
                 //updateCue(data.cue,data.value,function(){
-                 new DMXHandler().sendValue(cues[data.cue],master,this.serialPort);
+                // new DMXHandler().sendValue(cues[data.cue],master,self.serialPort);
                 // });
             }
         });
 
         socket.on('set',function(data){
             console.log('set received ...');
-            new DMXHandler().sendValue(data.data,master,this.serialPort);
+            new DMXHandler().sendValue(data.data,master,self.serialPort);
         });
     });
     self.ctx.res.render(faderView,this.ctx);
@@ -58,7 +58,7 @@ RawDeskController.prototype.doRequest = function(){
 RawDeskController.updateValues = function(){
     var handler = new DMXHandler();
     for(var i = 0; i < cues.length; i++){
-        handler.sendValue(cues[i],master,serialPort);
+        handler.sendValue(cues[i],master,this.serialPort);
     }
 }
 

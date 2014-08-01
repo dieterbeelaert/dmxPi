@@ -17,13 +17,13 @@ server.use(bodyParser.json())
 server.use("/public", express.static(__dirname + '/public'));
 
 var fixtures = [];
-/*
+
 var serialPort = new SerialPort('/dev/ttyACM0',{ baudrate: 9600,dataBits: 8,parity: 'none',stopBits: 1,flowControl: false});
 serialPort.on("open", function () {
     console.log('serial port is open');
     //only startup the node server when the serialport is opened ...
     initServer();
-});*/initServer();
+});
 
 
 
