@@ -10,14 +10,12 @@ var io = require('socket.io');
 var http = require('http');
 var DMXHandler = require('./modules/DMXHandler.js');
 var FixtureFactory = require('./models/FixtureFactory');
+var Controllers = require('./Controllers');
 server.use(bodyParser.urlencoded());
 server.use(bodyParser.json())
 //serve static files
 server.use("/public", express.static(__dirname + '/public'));
 
-//DMX variables
-var master = 255;
-var cues = ['','','','','','','','','','']; //cues is a list of values strings (for now)
 var fixtures = [];
 /*
 var serialPort = new SerialPort('/dev/ttyACM0',{ baudrate: 9600,dataBits: 8,parity: 'none',stopBits: 1,flowControl: false});
@@ -25,7 +23,7 @@ serialPort.on("open", function () {
     console.log('serial port is open');
     //only startup the node server when the serialport is opened ...
     initServer();
-});*/
+});*/initServer();
 
 
 
@@ -44,7 +42,7 @@ function initServer(){
 
     /*support for old webclient*/
     server.post('/console/cmd',function(req,res){
-        var ctx = new Context(req);
+        var ctx = new Context(req,res);
         var channel = ctx.getParam('channel');
         var value = ctx.getParam('value');
         //channel, value
@@ -55,7 +53,7 @@ function initServer(){
 
     /*better way*/
     server.post('/cmd',function(req,res){
-       var ctx = new Context(req);
+       var ctx = new Context(req,res);
        var command = ctx.getParam('cmd');
        var handler = new DMXHandler();
        handler.sendValue(command,master,serialPort);
@@ -65,64 +63,10 @@ function initServer(){
 
     /*DMX Raw desk*/
     server.get("/raw",function(req,res){
-       res.render('../views/raw_desk.ejs');
+        console.log('request for raw');
+        var ctrl = new Controllers.RawDeskController(new Context(req,res),socket,serialPort);
+        ctrl.doRequest();
     });
-
-    /*Socket listeners*/
-    socket.on('connection',function(socket){
-       console.log('socket connection');
-
-        socket.on('record',function(data){
-           //data.cue, data.data
-		console.log('on record: ' + data);
-           if(data.cue != -1){
-               cues[data.cue] = data.data;
-		console.log(cues);
-           }
-        });
-
-        socket.on('fade',function(data){
-            console.log(data);
-          if(parseInt(data.cue) === -1){
-              master = parseInt(data.value);
-              updateValues(serialPort);
-          }else{
-              //todo: use updateCue so that the master fader has an effect ...
-	       new DMXHandler().sendValue(cues[data.cue],data.value,serialPort);
-              //updateCue(data.cue,data.value,function(){
-                // new DMXHandler().sendValue(cues[data.cue],master,serialPort);
-             // });
-          }
-        });
-
-        socket.on('set',function(data){
-            console.log('set received ...');
-            new DMXHandler().sendValue(data.data,master,serialPort);
-        });
-    });
-}
-
-function updateValues(serialPort){
-    var handler = new DMXHandler();
-    for(var i = 0; i < cues.length; i++){
-       handler.sendValue(cues[i],master,serialPort);
-    }
-}
-
-function updateCue(index,value,callback){
-    var cue = cues[index];
-    if(typeof cue !== undefined) {
-        var splitted = cue.split(',');
-        var toUpdate = '';
-        for (var i = 0; i < splitted.length; i++) {
-            var curCue = splitted[i].split('@');
-            toUpdate = curCue[0] + '@' + Math.round((parseInt(curCue[1]) * (value / 255)));
-        }
-        cues[i] = toUpdate;
-	console.log(toUpdate);
-	console.log(cues[i]);
-        callback();
-    }
 }
 
 

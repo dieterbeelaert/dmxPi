@@ -6,8 +6,10 @@
  * To change this template use File | Settings | File Templates.
  */
 
-function Context(req){
+function Context(req,res){
     this.params = {};
+    this.req = req;
+    this.res = res;
 
 //querystring
     for(var q in req.query){
