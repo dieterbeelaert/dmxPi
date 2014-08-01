@@ -56,7 +56,7 @@ function initServer(){
        var ctx = new Context(req,res);
        var command = ctx.getParam('cmd');
        var handler = new DMXHandler();
-       handler.sendValue(command,master,serialPort);
+       handler.sendValue(command,255,serialPort);
        res.end();
     });
 

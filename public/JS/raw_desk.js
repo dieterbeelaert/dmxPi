@@ -5,8 +5,11 @@
 var socket = io();
 var recordMode = false;
 
+var values = [];
+
 $(document).ready(function(){
-         $('#msgRecordMode').hide();
+        $('#msgRecordMode').hide();
+        initCueValues();
         socket.emit('set',{data:'test'});
         $('.fader').slider({
             orientation: "vertical",
@@ -17,6 +20,7 @@ $(document).ready(function(){
             slide: function( event, ui ) {
                 var cue = $(this).attr('number');
                 var value = ui.value;
+                values[cue] = value;
                 sendFadeValue(cue,value);
             }
         });
@@ -41,15 +45,15 @@ $(document).ready(function(){
 
         });
 
-        $('.flashButton').mousedown(function(){
+        $('.flashButton').on('touchstart',function(){
             var cue = $(this).attr('number');
             sendFadeValue(cue,255)
         });
 
         $('.flashButton').button();
-        $('.flashButton').mouseup(function(){
+        $('.flashButton').on('touchend',function(){
            var cue = $(this).attr('number');
-            sendFadeValue(cue,0);
+            sendFadeValue(cue,values[cue]);
         });
 
 
@@ -64,6 +68,13 @@ $(document).ready(function(){
             recordMode = false;
             $('#txtCmd').val('');
             $('#msgRecordMode').hide();
+        }
+    }
+
+    function initCueValues(){
+        values = [];
+        for(var i = 0; i < $('.fader').length; i++){
+            values.push(0);
         }
     }
 });
