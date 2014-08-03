@@ -10,6 +10,7 @@ var values = [];
 $(document).ready(function(){
         $('#msgRecordMode').hide();
         initCueValues();
+        $('button').button();
         socket.emit('set',{data:'test'});
         $('.fader').slider({
             orientation: "vertical",
