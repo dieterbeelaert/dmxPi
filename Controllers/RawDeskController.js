@@ -59,6 +59,14 @@ RawDeskController.prototype.doRequest = function(){
             }
         });
 
+        socket.on('blackout',function(){
+           var toSend = '';
+            for(var i = 1; i < 256;i++){
+                toSend += i + '@0';
+            }
+            new DMXHandler().sendValue(toSend,self.serialPort);
+        });
+
         socket.on('tap',function(data){
 
         });

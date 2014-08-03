@@ -4,6 +4,7 @@
 
 var socket = io();
 var recordMode = false;
+var recordChaseMode = false;
 
 var values = [];
 
@@ -28,9 +29,7 @@ $(document).ready(function(){
 
 
         $('#btnRecordCue').click(function(){
-           recordMode = true;
-            $('#msgRecordMode').show();
-
+           setRecordMode();
         });
 
 
@@ -43,7 +42,12 @@ $(document).ready(function(){
         });
 
         $('#btnRecordStep').click(function(){
+            recordChaseMode = true;
+            setRecordMode();
+        });
 
+        $("#btnBlackout").click(function(){
+            socket.emit('blackout',{});
         });
 
         $('.flashButton').on('touchstart',function(){
@@ -65,7 +69,10 @@ $(document).ready(function(){
         }else{
             console.log('recording: ' );
             console.log("at cue: " + cue);
-            socket.emit('record',{cue:cue,data:$('#txtCmd').val()});
+            var data = {cue: cue, data: $('#txtCmd').val()};
+            var commandName = recordChaseMode ? 'recordStep' : 'record';
+            socket.emit(commandName,data);
+            recordChaseMode = false;
             recordMode = false;
             $('#txtCmd').val('');
             $('#msgRecordMode').hide();
@@ -77,6 +84,11 @@ $(document).ready(function(){
         for(var i = 0; i < $('.fader').length; i++){
             values.push(0);
         }
+    }
+
+    function setRecordMode(){
+        recordMode = true;
+        $('#msgRecordMode').show();
     }
 });
 
