@@ -37,7 +37,7 @@ RawDeskController.prototype.doRequest = function(){
             if(data.cue != -1){
                 /*cues[data.cue] = data.data;
                 console.log(cues);*/
-                cues[data.cue] = new Cue(data.data,this.serialPort);
+                cues[data.cue] = new Cue(data.data,self.serialPort);
             }
         });
 
