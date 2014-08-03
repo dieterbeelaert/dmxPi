@@ -60,12 +60,11 @@ RawDeskController.prototype.doRequest = function(){
         });
 
         socket.on('blackout',function(){
-           var toSend = '';
-            for(var i = 1; i < 256;i++){
-                toSend += i + '@0,';
-            }
-            toSend = toSend.substring(0,toSend.length -1);
-            new DMXHandler().sendValue(toSend,self.serialPort);
+           for(var i = 0; i < cues.length; i++){
+               if(cues[i] !== undefined){
+                   cues[i].updateValue(0);
+               }
+           }
         });
 
         socket.on('tap',function(data){
